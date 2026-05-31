@@ -6,6 +6,8 @@ float NormalizeAngle(float angle); // 角度を 0°~360° → -180°~180° に�
 
 void Serial_start(); // シリアル起動確認
 
+
+
 class MovingAverage
 {
 private:
@@ -16,4 +18,9 @@ private:
 
 public:
     float update(float now_val);
+};
+
+float MortorPower()
+{
+
 };

@@ -38,3 +38,4 @@ float MovingAverage::update(float now_val)
     // 整数除算で平均を出す
     return sum / count;
 }
+
