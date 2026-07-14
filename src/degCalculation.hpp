@@ -1,6 +1,6 @@
 #pragma once
-extern bool ballFound;
+extern bool ball_found;
 
-extern void DegCalculation();
-extern float ballAngle;
+extern void degCalculation();
+extern float ball_angle;
 extern float theta;

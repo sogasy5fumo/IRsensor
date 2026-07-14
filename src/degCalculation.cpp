@@ -6,15 +6,15 @@
 
 static const int NOT_BALL_FOUND = 900;
 
-bool ballFound = false;
+bool ball_found = false;
 float theta = 0.0;
 
 class IR // 個々のIRもろもろ
 {
 public:
-    int pin = -1;
-    int val = -1;
-    float deg = -1;
+    int _pin = -1;
+    int _val = -1;
+    float _deg = -1;
 };
 
 IR myIR[8];
@@ -25,15 +25,16 @@ const int IRsensor_pin[8] = {1, 2, 3, 4, 5, 8, 9, 10};
 static MovingAverage vxMA;
 static MovingAverage vyMA;
 
-float ballAngle;
-const int DAC_PIN = A0;
+float ball_angle;
+const int DAC_pin1 = A0;
+const int DAC_pin2;
 
 static float deg_radian(float degree)
 {
     return degree * M_PI / 180.0;
 }
 
-void DegCalculation()
+void degCalculation()
 {
     //
     //=======================================================================================
@@ -41,39 +42,40 @@ void DegCalculation()
     //=======================================================================================
     //
     IR minIR; // 最小値の決定
-    minIR.val = 1023;
+    minIR._val = 1023;
 
     for (int i = 0; i < 8; i++)
     {
-        myIR[i].pin = IRsensor_pin[i];
-        myIR[i].val = analogRead(myIR[i].pin);
-        myIR[i].deg = i * 45;
+        myIR[i]._pin = IRsensor_pin[i];
+        myIR[i]._val = analogRead(myIR[i]._pin);
+        myIR[i]._deg = i * 45;
 
-        if (myIR[i].val < minIR.val)
+        if (myIR[i]._val < minIR._val)
         {
-            minIR.pin = myIR[i].pin;
-            minIR.val = myIR[i].val;
-            minIR.deg = myIR[i].deg;
+            minIR._pin = myIR[i]._pin;
+            minIR._val = myIR[i]._val;
+            minIR._deg = myIR[i]._deg;
         }
     }
 
     for (int i = 0; i < IR_COUNT; i++)
     {
-        Serial.print(myIR[i].val);
+        Serial.print(myIR[i]._val);
         Serial.print(" ");
     }
+    Serial.print("最小値のピン");
     Serial.print("-> ");
-    Serial.print(minIR.val);
+    Serial.print(minIR._val);
     Serial.print(" ");
 
-    // -minval900よりも小さいならballFoundがtrueにする-
-    if (minIR.val > NOT_BALL_FOUND)
+    // -minval900よりも小さいならball_foundがtrueにする-
+    if (minIR._val > NOT_BALL_FOUND)
     {
-        ballFound = false;
+        ball_found = false;
     }
     else
     {
-        ballFound = true;
+        ball_found = true;
     }
 
     //
@@ -86,8 +88,8 @@ void DegCalculation()
 
     for (int pin = 0; pin < IR_COUNT; pin++)
     {
-        float w = 1.0 / (myIR[pin].val + 1);
-        float ang = deg_radian(myIR[pin].deg);
+        float w = 1.0 / (myIR[pin]._val + 1);
+        float ang = deg_radian(myIR[pin]._deg);
         vx += w * cos(ang);
         vy += w * sin(ang);
     }
@@ -98,16 +100,16 @@ void DegCalculation()
     theta = atan2(smoothVY, smoothVX) * 180.0 / M_PI;
     if (theta < 0.0)
         theta += 360.0;
+    ball_angle = (theta / 360.0) * 1024; // C-styleに送る用
 
-    ballAngle = (theta / 360.0) * 1024; // C-styleに送る用
-
-    if (ballFound)
+    if (ball_found)
     {
         Serial.print(theta);
-        analogWrite(DAC_PIN, ballAngle); // DAC_PINに値を送る。
+        analogWrite(DAC_pin1, ball_angle); // DAC_pin1に値を送る。
     }
     else
     {
-        Serial.print("ボールが見つかりません笑");
+        Serial.print("ボールが見つかりません (No IR ball Signal)");
+        analogWrite(DAC_pin2, ball_found);
     }
 }

@@ -2,9 +2,9 @@
 
 #include <Arduino.h>
 
-float NormalizeAngle(float angle); // 角度を 0°~360° → -180°~180° に変換
+float normalizeAngle(float angle); // 角度を 0°~360° → -180°~180° に変換
 
-void Serial_start(); // シリアル起動確認
+void serialStart(); // シリアル起動確認
 
 
 
@@ -20,7 +20,3 @@ public:
     float update(float now_val);
 };
 
-float MortorPower()
-{
-
-};

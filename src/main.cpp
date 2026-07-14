@@ -12,16 +12,16 @@ void setup()
 {
   Serial.begin(115200);
 
-  Serial_start();
+  serialStart();
 }
 
 void loop()
 {
   #ifdef IRValueCheck // ====IRセンサ=========================================
   #if IRValueCheck
-  SensorCheck();
+  sensorCheck();
   #else
-  DegCalculation();
+  degCalculation();
   #endif
   #endif
 
@@ -37,7 +37,7 @@ IR_COUNT = IRセンサの総数
 NOT_BOLL_FOUND = ボールが見つからないと判断する最小の仮値
 
 irValue[] = その時々のセンサの値の格納庫。[]の中の数はピン番号
-ballFound = ボールがあると、trueになる。ボールがないとfalseとなり、プログラムの最初に戻る。デフォルトはfalse
+ball_found = ボールがあると、trueになる。ボールがないとfalseとなり、プログラムの最初に戻る。デフォルトはfalse
 theta = ボールの角度。θ
 
 deg_radian() = ()の中のピン番号と接続してあるセンサのIR_FIRST_PINを0°とした向いている角度。

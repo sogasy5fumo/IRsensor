@@ -1,6 +1,6 @@
 #include "option.hpp"
 
-float NormalizeAngle(float angle)
+float normalizeAngle(float angle)
 {
     while (angle > 180.0)
         angle -= 360.0;
@@ -9,7 +9,7 @@ float NormalizeAngle(float angle)
     return angle;
 }
 
-void Serial_start()
+void serialStart()
 {
     while (!Serial)
         ;
@@ -38,4 +38,3 @@ float MovingAverage::update(float now_val)
     // 整数除算で平均を出す
     return sum / count;
 }
-
