@@ -5,13 +5,20 @@
 #include "sensorCheck.hpp"
 #include "degCalculation.hpp"
 
+#include "moveAverage.hpp"
+
 #define IRValueCheck 0 // 1: センサの値チェック 0: 角度を出す コメントアウト:実行しない
 
+EMAfilter sensors[8];
+IRcalculation IRcal;
 
 void setup()
 {
   Serial.begin(115200);
-
+  Serial1.begin(115200);
+  for (int i = 0; i < IR_COUNT; i++) {
+    sensors[i].EMA_init(0.2f);
+  }
   serialStart();
 }
 
@@ -21,7 +28,7 @@ void loop()
   #if IRValueCheck
   sensorCheck();
   #else
-  degCalculation();
+  IRcal.degCalculation();
   #endif
   #endif
 

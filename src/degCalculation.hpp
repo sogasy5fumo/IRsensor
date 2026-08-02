@@ -1,6 +1,17 @@
 #pragma once
-extern bool ball_found;
+#include <Arduino.h>
+#include "option.hpp"
+#include "moveAverage.hpp"
 
-extern void degCalculation();
-extern float ball_angle;
-extern float theta;
+#include "sensorCheck.hpp"
+
+class IRcalculation
+{
+private:
+    static const int IR_COUNT = 8;
+    EMAfilter _sensors[IR_COUNT];
+    float _theta = 0.0f;
+public:
+    void IRinit();
+    void degCalculation();
+};
