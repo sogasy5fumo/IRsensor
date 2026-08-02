@@ -34,9 +34,9 @@ static float deg_radian(float degree)
 
 void IRcalculation::IRinit()
 {
-    for (int i = 0; i < IR_COUNT; i++) {
-        _sensors[i].EMA_init(0.2f);
-    }
+    // for (int i = 0; i < IR_COUNT; i++) {
+    //     _sensors[i].EMA_init(0.2f);
+    // }
 }
 
 void IRcalculation::degCalculation()
@@ -55,7 +55,7 @@ void IRcalculation::degCalculation()
         myIR[i]._val = analogRead(myIR[i]._pin);
         myIR[i]._deg = i * 45;
 
-        _sensors[i].EMA_calculate(myIR[i]._val);
+        // _sensors[i].EMA_calculate(myIR[i]._val);
         myIR[i]._val = _sensors[i].getFiltered();
 
         if (myIR[i]._val < minIR._val)
