@@ -16,10 +16,12 @@ void setup()
 {
   Serial.begin(115200);
   Serial1.begin(115200);
-  for (int i = 0; i < IR_COUNT; i++) {
-    sensors[i].EMA_init(0.2f);
-  }
-  serialStart();
+  // for (int i = 0; i < IR_COUNT; i++) {
+  //   sensors[i].EMA_init(0.2f);
+  // }
+  // serialStart();
+
+  IRcal.IRinit();
 }
 
 void loop()
@@ -34,7 +36,7 @@ void loop()
 
   Serial.println();
 
-  delay(100);
+  delay(1);
 }
 
 /* ==変数・定数・関数一覧==

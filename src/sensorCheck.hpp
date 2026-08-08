@@ -1,7 +1,8 @@
 #pragma once
+#include <Arduino.h>
 
-extern const int IR_FIRST_PIN;
-extern const int IR_LAST_PIN;
-extern const int IR_COUNT;
+// const int IR_FIRST_PIN;
+// const int IR_LAST_PIN;
+// const int IR_COUNT;
 
-extern void sensorCheck();
+// extern void sensorCheck();

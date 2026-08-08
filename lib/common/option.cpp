@@ -17,24 +17,21 @@ void serialStart()
     Serial.println("Serial start    ");
 }
 
-float MovingAverage::update(float now_val)
+void dataSend(int data, int base)
 {
-    // 1. 新しい値をバッファに書き込む (循環バッファ)
-    storage[current_target] = now_val;
-    current_target = (current_target + 1) % num_elements;
-
-    // 2. データ点数のカウント（上限はウィンドウサイズ）
-    if (count < num_elements)
-        count++;
-
-    // 3. 移動平均の計算
-    float sum = 0;
-    // 蓄積されたデータ点数分だけ合計する
-    for (int i = 0; i < count; i++)
+    if (base == 2 || base == 8)
     {
-        sum += storage[i];
+        Serial1.write((uint8_t)(data & 0xFF));
     }
-
-    // 整数除算で平均を出す
-    return sum / count;
+    else if (base == 16)
+    {
+        uint16_t _data = (uint16_t)data;
+        Serial1.write((_data >> 8) & 0xFF);
+        Serial1.write(_data & 0xFF);
+    }else{
+        Serial1.write(0xFF);
+    }
 }
+
+void startSend() { Serial1.write(START); }
+void finishSend() { Serial1.write(FINISH); }

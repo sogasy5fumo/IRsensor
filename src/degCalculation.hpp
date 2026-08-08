@@ -15,3 +15,5 @@ public:
     void IRinit();
     void degCalculation();
 };
+
+void sensorCheck();
